@@ -173,14 +173,12 @@ function get-acr-token(){
     $subscriptionId = [Environment]::GetEnvironmentVariable("azSubscriptionId", "User");
     az acr login -n $acrName --subscription $subscriptionId --expose-token
 }
+
 Remove-Item alias:curl
 Set-Alias wcurl Invoke-WebRequest
 
-#################################################
-# Update the following Paths
-#################################################
-Import-Module "C:\wagit\Scripts\PSModules\AntaresHelpers\AntaresHelpers.psm1" -Force
-Import-Module "C:\wagit\Scripts\PSModules\UseTemplate\use-template-module.psm1" -Force
-Import-Module "C:\wagit\Scripts\PSModules\Remember\remember-module.psm1" -Force
+Import-Module "C:\devbox-config\powershell\Modules\AntaresHelpers\AntaresHelpers.psm1" -Force
+Import-Module "C:\devbox-config\powershell\Modules\UseTemplate\use-template-module.psm1" -Force
+Import-Module "C:\devbox-config\powershell\Modules\Remember\remember-module.psm1" -Force
 
 [System.Environment]::SetEnvironmentVariable('OUTPUTROOT','C:\wagit\AAPT-Antares-WebSites\out')
