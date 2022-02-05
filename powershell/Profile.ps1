@@ -11,7 +11,7 @@ Import-Module -Name Terminal-Icons
 Import-Module oh-my-posh
 set-alias desktop "Desktop.ps1"
 
-C:\Users\visaayir\AppData\Local\Programs\oh-my-posh\bin\oh-my-posh --init --shell pwsh --config "C:\Users\visaayir\AppData\Local\Programs\oh-my-posh\themes\powerlevel10k_rainbow.omp.json" | Invoke-Expression
+oh-my-posh --init --shell pwsh --config "C:\devbox-config\powershell\powerlevel10k_rainbow.omp.json" | Invoke-Expression
 Write-Host ""
 
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
@@ -875,5 +875,3 @@ function prompt(){
     }
     
 }
-
-
