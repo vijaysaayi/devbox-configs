@@ -1,0 +1,1 @@
+New-ModuleManifest -Path ".\AntaresHepers.psd1" -RootModule ".\AntaresHepers.psm1"
