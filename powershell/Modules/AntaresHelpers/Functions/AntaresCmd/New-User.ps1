@@ -12,9 +12,7 @@ function New-User {
     
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
     Write-Host ""
-    Write-Host "---------------------------------------------------------------------------"
-    Write-Host "Creating general user : $UserName"
-    Write-Host "---------------------------------------------------------------------------"
+    Add-BorderAroundText "Creating general user : $UserName" 100
     "$antarates_cmd CreateUser $UserName /publishingUserName:$UserName /publishingPassword:$PassKey /UseCsm:false" | Invoke-Expression
     Write-Host "Created new user $UserName with password $StampName"
 }

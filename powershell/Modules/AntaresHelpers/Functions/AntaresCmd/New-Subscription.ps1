@@ -12,9 +12,7 @@ function New-Subscription {
     
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
     Write-Host ""
-    Write-Host "---------------------------------------------------------------------------"
-    Write-Host "Creating new subscription : $SubscriptionName"
-    Write-Host "---------------------------------------------------------------------------"
+    Add-BorderAroundText "Creating new subscription : $SubscriptionName" 100
     Write-Host "Adding user $UserName as owner of subscription $SubscriptionName"
     "$antarates_cmd CreateSubscription $SubscriptionName /ownerUserName:$UserName /description:test /UseCsm:false" | Invoke-Expression 
 }

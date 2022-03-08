@@ -20,9 +20,7 @@ function New-LinuxWebApp {
     
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
     Write-Host ""
-    Write-Host "---------------------------------------------------------------------------"
-    Write-Host "Creating new App Service - $WebAppName"
-    Write-Host "---------------------------------------------------------------------------"
+    Add-BorderAroundText "Creating new App Service - $WebAppName" 100
     "$antarates_cmd CreateWebSite $SubscriptionName $WebSpaceName $WebAppName /computeMode:Dedicated /serverFarm:$AppServicePlanName /UseCsm:false" | Invoke-Expression    
         
 }

@@ -14,9 +14,7 @@ function Update-AppSettings(){
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
 
     Write-Host ""
-    Write-Host "-------------------------------------------------------------------------------------------"
-    Write-Host "This script will update App Settings of existing App Service in private stamp $stampName"
-    Write-Host "-------------------------------------------------------------------------------------------"
+    Add-BorderAroundText "This script will update App Settings of existing App Service in private stamp $stampName" 100
     do {
         $appSettingName =  Read-Host -p "App Setting Name"   
         $appSettingValue =  Read-Host -p "App Setting Value"   

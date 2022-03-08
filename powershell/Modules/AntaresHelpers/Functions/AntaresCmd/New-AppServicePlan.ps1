@@ -20,9 +20,7 @@ function New-AppServicePlan {
     
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
     Write-Host ""
-    Write-Host "---------------------------------------------------------------------------"
-    Write-Host "Creating new App Service Plan with the name $AppServicePlanName"
-    Write-Host "---------------------------------------------------------------------------"
+    Add-BorderAroundText "Creating new App Service Plan with the name $AppServicePlanName" 100
     Write-Host "$antarates_cmd CreateServerFarm $SubscriptionName $WebSpaceName $AppServicePlanName /sku:Standard /UseCsm:false /isLinux:true /workerSize:$WorkerSize"
     "$antarates_cmd CreateServerFarm $SubscriptionName $WebSpaceName $AppServicePlanName /sku:Standard /UseCsm:false /isLinux:true /workerSize:$WorkerSize" | Invoke-Expression    
     

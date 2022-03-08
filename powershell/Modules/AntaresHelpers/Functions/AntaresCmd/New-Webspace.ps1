@@ -16,8 +16,6 @@ function New-Webspace {
     $stampName = [Environment]::GetEnvironmentVariable("stampname", "User");
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
     Write-Host ""    
-    Write-Host "---------------------------------------------------------------------------"
-    Write-Host "Creating new Webspace : $WebSpaceName"
-    Write-Host "---------------------------------------------------------------------------"
+    Add-BorderAroundText "Creating new Webspace : $WebSpaceName" 100
     "$antarates_cmd CreateWebSpace $SubscriptionName $WebSpaceName VirtualDedicatedPlan /geoRegion:'$GeoRegionName' /UseCsm:false /stampName:$stampName" | Invoke-Expression
 }

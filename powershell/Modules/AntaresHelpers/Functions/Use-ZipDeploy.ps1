@@ -23,12 +23,14 @@ function Use-ZipDeploy(){
         Write-Host "$url"
     }
     
-    curl -k -X POST -u "${user}:$password" -T "$PackagePath" $url -v
+    $quote='"'
+    $command = "curl -k -X POST --header 'Content-Type: application/zip' -u ${quote}${user}:$password${quote} --data-binary ${quote}$PackagePath${quote} $url -v" 
+    Write-Debug $command
+
+    $command | Invoke-Expression
 
     Write-Host ""
-    Write-Host "--------------------------------------------"
-    Write-Host "  Zip Deploy Completed"
-    Write-Host "--------------------------------------------"
+    Add-BorderAroundText "Zip Deploy Completed" 100
     Write-Host "To browse to webapp, browse to http://$SiteName.$stampName.antares-test.windows-int.net/"
     Write-Host "To review the logs, browse to http://$SiteName.scm.$stampName.antares-test.windows-int.net/deploymentlogs/"
     

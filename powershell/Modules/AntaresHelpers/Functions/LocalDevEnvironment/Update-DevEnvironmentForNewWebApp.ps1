@@ -15,9 +15,7 @@ function Update-DevEnvironmentForNewWebApp {
     $stampConfigPath = [Environment]::GetEnvironmentVariable("AntaresStampConfigPath", "User");
     
     Write-Host ""
-    Write-Host "--------------------------------------------------------------------------------------------"
-    Write-Host "Setting up a directory in local machine which can help with code deployments"
-    Write-Host "--------------------------------------------------------------------------------------------"
+    Add-BorderAroundText "Setting up a directory in local machine which can help with code deployments $SiteName" 100
     Write-Host "Creating directory for stamp : $stampDirectory, if it doesn't exist"
     [System.IO.Directory]::CreateDirectory($stampDirectory)
     $siteDir = [IO.Path]::Combine($stampDirectory , $SiteName )
@@ -30,12 +28,11 @@ function Update-DevEnvironmentForNewWebApp {
     [System.IO.Directory]::CreateDirectory("$siteDir.backup")
     Write-Host ""
     Write-Host "Cleaning existing $siteName.backup directory"
-    Remove-Item "$siteDir.backup\*.*" -Recurse -Force
+    Remove-Item "$siteDir.backup\*" -Recurse -Force
     Write-Host "Copying files from $siteDir to $siteDir.backup"
     Move-Item -Path "$siteDir\*" -Destination "$siteDir.backup"
     Write-Host "Cleaning site Directory"
-    Remove-Item "$siteDir\*.*" -Recurse -Force
-
+    Remove-Item "$siteDir\*" -Recurse -Force
     $currentDir = Get-Location
     Set-Location -Path $siteDir
     Write-Host ""
@@ -50,9 +47,7 @@ function Update-DevEnvironmentForNewWebApp {
     Invoke-Expression -Command "git remote add azure $remoteUrl"
 
     Write-Host ""
-    Write-Host "--------------------------------------------------------------------------------------"
-    Write-Host "Setup Completed. You can browse to Main site and Kudu site using the following links"
-    Write-Host "--------------------------------------------------------------------------------------"        
+    Add-BorderAroundText "Setup Completed. You can browse to Main site and Kudu site using the following links" 100
     Write-Host "Main Site : http://$SiteName.$stampName.antares-test.windows-int.net"
     Write-Host "Kudu Site : http://$SiteName.scm.$stampName.antares-test.windows-int.net/newui"
 

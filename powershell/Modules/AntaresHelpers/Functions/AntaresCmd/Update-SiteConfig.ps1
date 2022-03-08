@@ -15,16 +15,19 @@ function Update-SiteConfig {
 
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [string]$LinuxFxVersion
+        [string]$LinuxFxVersion,
+
+        [string]$CustomStartupCommand=""
     ) 
     
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
     Write-Host ""
-    Write-Host "---------------------------------------------------------------------------"
-    Write-Host "Update the Site config"
-    Write-Host "---------------------------------------------------------------------------"
+    Add-BorderAroundText "Updating LinuxFx Version to $LinuxFxVersion" 100
     $quote = '"'
     $command = "$antarates_cmd UpdateWebSiteConfig $SubscriptionName $WebSpaceName $WebAppName /UseCsm:false /alwaysOn:1 /linuxFxVersion:$quote$LinuxFxVersion$quote"
+    if ($CustomStartupCommand -eq ""){
+        $command = "$command /appCommandLine:$CustomStartupCommand"
+    }
     Write-Host "$command"
     Invoke-Expression $command
 }
