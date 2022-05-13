@@ -9,5 +9,5 @@ function New-StampConfigDirectory {
     Write-Host ""
     Add-BorderAroundText "Checking if Stamp config folder exists and creating if needed" 100
     [System.IO.Directory]::CreateDirectory($LocalStampConfigPath+'/STAMPCONFIG')
-
+    Write-Host ""
 }

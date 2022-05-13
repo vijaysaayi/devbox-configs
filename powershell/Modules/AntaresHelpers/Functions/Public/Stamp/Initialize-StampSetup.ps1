@@ -32,6 +32,10 @@ function Initialize-StampSetup(){
     Write-Host "Setting Local Stamp Websites directory to $LocalDevEnvironmentStampWebsitesDirectory"
     [Environment]::SetEnvironmentVariable("AntaresStampWebsitesDirectory", "$LocalDevEnvironmentStampWebsitesDirectory", "User")
 
+    Write-Host ""
+
+    Update-AntaresCmdConfig -StampName $Stampname -GeoRegionName $GeoRegion
+
     New-User -UserName $UserName -PassKey $StampName
     New-Subscription -UserName $UserName -SubscriptionName $Subscription
     New-Webspace -SubscriptionName $Subscription -WebspaceName $Webspace -GeoRegionName $GeoRegion 

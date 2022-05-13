@@ -24,7 +24,7 @@ function Update-SiteConfig {
     Write-Host ""
     Add-BorderAroundText "Updating LinuxFx Version to $LinuxFxVersion" 100
     $quote = '"'
-    $command = "$antarates_cmd UpdateWebSiteConfig $SubscriptionName $WebSpaceName $WebAppName /UseCsm:false /alwaysOn:1 /linuxFxVersion:$quote$LinuxFxVersion$quote"
+    $command = "$antarates_cmd UpdateWebSiteConfig $SubscriptionName $WebSpaceName $WebAppName /UseCsm:false /linuxFxVersion:$quote$LinuxFxVersion$quote"
     if ($CustomStartupCommand -eq ""){
         $command = "$command /appCommandLine:$CustomStartupCommand"
     }

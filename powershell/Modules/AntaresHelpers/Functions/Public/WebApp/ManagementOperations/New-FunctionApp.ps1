@@ -1,9 +1,9 @@
-function New-AppService(){
+function New-FunctionApp(){
     [CmdletBinding()]
     param (  
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [string]$SiteName,
+        [string]$Name,
 
         [string]$AppServicePlanName = "default-asp",
         [switch]$CreateNewAppServicePlan ,
@@ -18,7 +18,7 @@ function New-AppService(){
     $stampConfigPath = [Environment]::GetEnvironmentVariable("AntaresStampConfigPath", "User");
     $stampConfig = Get-Content "$stampConfigPath/$stampName.json" | Out-String | ConvertFrom-Json
 
-    $stack = Get-LinuxFxVersion
+    $linuxFxVersion, $stack, $stackVersion = Get-LinuxFxVersion
     
     $subscription = $stampConfig.Subscription
     $webspace = $stampConfig.WebSpace
@@ -26,15 +26,17 @@ function New-AppService(){
     if($CreateNewAppServicePlan){
         New-AppServicePlan -SubscriptionName $subscription -WebspaceName $webspace -AppServicePlanName $AppServicePlanName -WorkerSize $WorkerSize
     }
-    New-LinuxWebApp -SubscriptionName $subscription -WebspaceName $webspace -WebAppName $SiteName -AppServicePlanName  $AppServicePlanName 
-    Update-SiteConfig -SubscriptionName $subscription -WebspaceName $webspace -WebAppName $SiteName -LinuxFxVersion $stack
+    New-LinuxFunctionApp -SubscriptionName $subscription -WebspaceName $webspace -FunctionAppName $Name -AppServicePlanName  $AppServicePlanName -Stack "$stack".ToLower()
+    Update-AppSettings -SiteName $Name -Name "FUNCTIONS_EXTENSION_VERSION" -Value "~3"
+    Update-AppSettings -SiteName $Name -Name "FUNCTIONS_WORKER_RUNTIME" -Value "$stack".ToLower()
+    Update-SiteConfig -SubscriptionName $subscription -WebspaceName $webspace -WebAppName $Name -LinuxFxVersion $linuxFxVersion
 
-    $stampConfig.Sites += $SiteName
+    $stampConfig.Sites += $Name
     $stampConfigPath = [Environment]::GetEnvironmentVariable("AntaresStampConfigPath", "User");
     $stampconfig | ConvertTo-Json | Out-File "$stampConfigPath/$stampName.json"
 
     if(!$DisableLocalDevEnvironment){
-        Update-DevEnvironmentForNewWebApp -SiteName $SiteName -RemainInSameDirectory $RemainInSameDirectory
+        Update-DevEnvironmentForNewWebApp -SiteName $Name -RemainInSameDirectory $RemainInSameDirectory
     }
 
 }

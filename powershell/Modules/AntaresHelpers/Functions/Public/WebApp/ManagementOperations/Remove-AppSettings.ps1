@@ -1,4 +1,4 @@
-function Update-AppSettings(){
+function Remove-AppSettings(){
     [CmdletBinding()]
     param (  
         [Parameter(Mandatory)]
@@ -14,13 +14,12 @@ function Update-AppSettings(){
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");
 
     Write-Host ""
-    Add-BorderAroundText "This script will update App Settings of existing App Service in private stamp $stampName" 100
+    Add-BorderAroundText "This script will remove App Settings of existing App Service in private stamp $stampName" 100
     do {
-        $appSettingName =  Read-Host -p "App Setting Name"   
-        $appSettingValue =  Read-Host -p "App Setting Value"   
-        "$antarates_cmd AddWebSiteAppSettings $subscription $webspace $SiteName $appSettingName=$appSettingValue" | Invoke-Expression    
+        $appSettingName =  Read-Host -p "App Setting Name"     
+        "$antarates_cmd DeleteWebSiteAppSetting $subscription $webspace $SiteName $appSettingName" | Invoke-Expression    
         
-        $option, $optionIndex = New-Menu -Title "" -Question "Do you want to update another App Setting ?" -Options @("&Yes","&No") -DefaultOption 1
+        $option, $optionIndex = New-Menu -Title "" -Question "Do you want to remove another App Setting ?" -Options @("&Yes","&No") -DefaultOption 1
         
     } until ($optionIndex -eq 1)
 }

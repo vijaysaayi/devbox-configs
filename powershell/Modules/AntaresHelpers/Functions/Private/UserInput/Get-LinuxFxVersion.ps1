@@ -23,8 +23,9 @@ function Get-LinuxFxVersion {
                 4 { $python_version="3.6"}
                 5 { $python_version="2.7"}
             }
-            
-            $stack = "PYTHON|$python_version"
+            $stack = "PYTHON"
+            $stackVersion = $python_version
+            $linuxFxVersion = "$stack|$stackVersion"
         }
         '.Net&Core' { 
             $availableVersions = @('&3.1','&5.0','&6.0', '&7.0')
@@ -37,8 +38,9 @@ function Get-LinuxFxVersion {
                 2 { $dotnetVersion="6.0"}
                 3 { $dotnetVersion="7.0"}
             }
-            
-            $stack = "DOTNETCORE|$dotnetVersion"
+            $stack = "DOTNETCORE"
+            $stackVersion = $dotnetVersion
+            $linuxFxVersion = "$stack|$stackVersion"
         }
         '&Node' {  
             $availableVersions = @('1&2','1&4','1&6', '1&8')
@@ -52,7 +54,9 @@ function Get-LinuxFxVersion {
                 3 { $nodeVersion="18-lts"}
             }
             
-            $stack = "NODE|$nodeVersion"            
+            $stack = "NODE"
+            $stackVersion = $nodeVersion
+            $linuxFxVersion = "$stack|$stackVersion"         
         }
         '&Go' { 
             $availableVersions = @('1.1&6')
@@ -63,11 +67,27 @@ function Get-LinuxFxVersion {
                 0 { $goVersion="1.16"}
             }
             
-            $stack = "GO|$goVersion"     
+            $stack = "GO"
+            $stackVersion = $goVersion
+            $linuxFxVersion = "$stack|$stackVersion"         
 
          }
-        'P&HP' {  }
+        'P&HP' {  
+            $availableVersions = @('&7.4','&8.0','8.&1')
+            
+            $selectedVersion, $selectedVersionIndex = New-Menu -Title "" -Question "PHP Version :" -Options $availableVersions -DefaultOption 0
+            switch($selectedVersionIndex)
+            {
+                0 { $phpVersion="7.4"}
+                1 { $phpVersion="8.0"}
+                2 { $phpVersion="8.1"}
+            }
+            
+            $stack = "PHP"
+            $stackVersion = $phpVersion
+            $linuxFxVersion = "$stack|$stackVersion"         
+        }
         Default {}
     }
-    return $stack
+    return @($linuxFxVersion, $stack, $stackVersion)
 }
