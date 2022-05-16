@@ -692,20 +692,6 @@ function hc
     psping $url
 }
 
-function browse {
-    $stamp_name = [Environment]::GetEnvironmentVariable("stampname", "User");
-    $url = "http://$args.$stamp_name.antares-test.windows-int.net"
-    Write-Host "Launch url $url"
-    Start-Process -PSPath $url
-}
-
-function browse-scm {
-    $stamp_name = [Environment]::GetEnvironmentVariable("stampname", "User");
-    $url = "http://$args.scm.$stamp_name.antares-test.windows-int.net/newui"
-    Write-Host "Launch url $url"
-    Start-Process -PSPath $url
-}
-
 function wagit {
     git -c http.sslVerify=false $args
 }
@@ -720,13 +706,6 @@ function wacurl {
 
 function build {
     .\build-corext.cmd
-}
-
-function antcmdconf {
-    code C:\wagit\AAPT-Antares-WebSites\out\debug-amd64\hosting\Azure\RDTools\Tools\Antares\AntaresCmd.exe.config
-    Write-Host '<add key="CertFindValue" value="3F028F0011270295550E2A6BA7748D419235CA70" />'
-    Write-Host '<add key="ServiceURL" value="https://visaayirlnx002.westus.cloudapp.azure.com:454" />'
-    Write-Host '<add key="ServiceURL" value="https://visaayirlnx002.cloudapp.net" />'
 }
 
 function downloads {
@@ -772,19 +751,6 @@ function deploy_stamp {
 
 function c {
     cmd /c $args
-}
-
-function add_pvtstamp_remote {
-    Param
-    (
-         [Parameter(Mandatory=$true, Position=0)]
-         [string] $siteName         
-    )
-    $stampname = [Environment]::GetEnvironmentVariable("stampname", "User");
-    $url = "visaayir"
-    $password = $stampname
-    $remoteUrl = "https://${user}:${password}@$siteName.scm.$stampname.antares-test.windows-int.net/$siteName.git"
-    Invoke-Expression -Command "git remote add azure $remoteUrl"    
 }
 
 function clone {
@@ -858,6 +824,7 @@ function get-acr-token(){
         [string] $acrName = "visaayirexpacr"
     )
     $subscriptionId = [Environment]::GetEnvironmentVariable("azSubscriptionId", "User");
+    Write-Host "az acr login -n $acrName --subscription $subscriptionId --expose-token"
     az acr login -n $acrName --subscription $subscriptionId --expose-token
 }
 Remove-Item alias:curl
@@ -866,8 +833,12 @@ Import-Module "C:\devbox-config\powershell\Modules\AntaresHelpers\AntaresHelpers
 Import-Module "C:\devbox-config\powershell\Modules\UseTemplate\use-template-module.psm1" -Force
 Import-Module "C:\devbox-config\powershell\Modules\Remember\remember-module.psm1" -Force
 
-[System.Environment]::SetEnvironmentVariable('OUTPUTROOT','C:\wagit\AAPT-Antares-WebSites\out')
+[Environment]::SetEnvironmentVariable("OUTPUTROOT", "C:/wagit/AAPT-Antares-Websites/out" , "User")
+[Environment]::SetEnvironmentVariable("SRCROOT", "C:/wagit/AAPT-Antares-Websites/src" , "User")
 
+function msbuild() {
+    &"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+} 
 function prompt(){
     $prompt.Invoke()    
     if($NestedPromptLevel -eq 0) {
