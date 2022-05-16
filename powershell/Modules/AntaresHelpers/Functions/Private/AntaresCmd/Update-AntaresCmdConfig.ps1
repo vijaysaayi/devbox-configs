@@ -14,6 +14,7 @@ function Update-AntaresCmdConfig {
     Add-BorderAroundText "Updating antarescmd.config.exe with stamp details : $WebSpaceName" 100
     
     $antarates_cmd = [Environment]::GetEnvironmentVariable("antarescmdpath", "User");  
+    $cert_thumbprint = [Environment]::GetEnvironmentVariable("antcmdcert", "User");  
     $file_name = "$antarates_cmd.config"  
     $region = $GeoRegionName.ToLower() -replace "\s"
 
@@ -22,7 +23,7 @@ function Update-AntaresCmdConfig {
 
     $nodes | ForEach-Object {
         if( $_.key -eq "CertFindValue") {
-            $_.value = "8A7CA844B4AA0DC20270C9DEE5869E4962336533"
+            $_.value = $cert_thumbprint
             display_message $_.key $_.value
         }
 
